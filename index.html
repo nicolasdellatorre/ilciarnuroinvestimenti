@@ -8,12 +8,41 @@
     <script src="app.js" type="text/javascript"></script>
   </head>
   <body>
-    <div id="landing-page" class="slide">
+    <div id="landing-page" class="slide" style="text-align: center;">
       <img src="img/logo-LPG.png" id="logo-lpg">
-      <img src="img/logo.png" id="logo-gcf">
-      <button id="btn-inizia" onclick="toSlide('login-page')">INIZIA</button>
+      <img src="img/logo.png" id="logo-gcf"><br>
+      <button class="bottone" onclick="toSlide('login-page')">INIZIA</button>
     </div>
     <div id="login-page" class="slide">
+      <div id="login-box">
+        <img src="img/logo.png" class="logo-login">
+        <form style="text-align: left; padding:2rem;">
+          <p>Nome utente</p>
+          <input type="text" name="username" required><br>
+          <p>Password</p>
+          <input type="password" name="password" required><br>
+          <div style="text-align: center;">
+            <button class="bottone" type="submit">ACCEDI</button>
+          </div>
+        </form>
+        <p>
+          Non hai un account? <a onclick="toSlide('signin-page')" class="link">Sign in</a>
+        </p>
+      </div>
+    </div>
+    <div id="signin-page" class="slide">
+      <div id="signin-box">
+        <img src="img/logo.png" class="logo-login">
+        <form style="text-align: left; padding:2rem;">
+          <p>Nome utente</p>
+          <input type="text" name="username" required><br>
+          <p>Password</p>
+          <input type="password" name="password" required><br>
+          <div style="text-align: center;">
+            <button class="bottone" type="submit">REGISTRATI</button>
+          </div>
+        </form>
+      </div>
     </div>
   </body>
   <script>

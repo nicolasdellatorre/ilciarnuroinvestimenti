@@ -1,17 +1,30 @@
 #landing-page {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
     background-image: url('img/landing-background.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    flex-direction: column;
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;    
+    overflow: auto;
 }
+
+#login-page {
+    background-image: url('img/login-background.png');
+    background-size: cover;
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;   
+    overflow: auto;
+}
+
+#signin-page {
+    background-image: url('img/signin-background.png');
+    background-size: cover;
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;   
+    overflow: auto;
+    text-align: center;
+    display: grid;
+    justify-items: center;
+}
+
 div.slide{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
@@ -19,10 +32,12 @@ div.slide{
     opacity:0;
     transition:opacity 0.4s;
 }
+
 div.slide.hidden{
     opacity:0;
     z-index:1;
 }
+
 div.slide.visible{
     opacity:1;
     z-index:2;
@@ -44,7 +59,7 @@ div.slide.visible{
     height: auto;
 }
 
-#btn-inizia {
+.bottone {
     margin-top: 3rem;
     position: relative;
     font-weight: bold;
@@ -60,7 +75,52 @@ div.slide.visible{
     font-size: 1rem;
 }
 
-#btn-inizia:hover {
+.bottone:hover {
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.5);
     transform: scale(1.05); 
+}
+
+#login-box {
+    text-align: center;
+    background-color: rgba(0, 2, 117, 0.582);
+    width: 30rem;
+    height: 33rem;
+    position: absolute;
+    right: 5rem;
+    top: 7rem;
+    border-radius: 20px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#signin-box {
+    text-align: center;
+    background-color: rgba(0, 2, 117, 0.582);
+    width: 50rem;
+    height: 30rem;
+    margin-top: 7rem;
+    border-radius: 20px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.logo-login {
+    width: 20rem;
+    height: auto;
+    margin-top: 1rem;
+}
+
+.link {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+input[type="text"], input[type="password"] {
+    width: 80%;
+    height: 2rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+    border: none;
+    padding-left: 1rem;
+    background-color: lightgrey;
 }
