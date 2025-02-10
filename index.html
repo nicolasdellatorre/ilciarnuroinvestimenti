@@ -17,10 +17,15 @@
       <div id="login-box">
         <img src="img/logo.png" class="logo-login">
         <form style="text-align: left; padding:2rem;">
-          <p>Nome utente</p>
-          <input type="text" name="username" required><br>
-          <p>Password</p>
-          <input type="password" name="password" required><br>
+          <div>
+            <p>Nome utente</p>
+            <input type="text" name="username" class="login" required>
+          </div>
+          <div>
+            <p>Password</p>
+            <input type="password" name="password" class="login" required>
+          </div>
+          
           <div style="text-align: center;">
             <button class="bottone" type="submit">ACCEDI</button>
           </div>
@@ -33,15 +38,57 @@
     <div id="signin-page" class="slide">
       <div id="signin-box">
         <img src="img/logo.png" class="logo-login">
-        <form style="text-align: left; padding:2rem;">
-          <p>Nome utente</p>
-          <input type="text" name="username" required><br>
-          <p>Password</p>
-          <input type="password" name="password" required><br>
+        <table>
+          <tr>
+            <td>
+              <p>Nome Completo Personaggio</p>
+              <input type="text" name="nome" class="sign" required>
+            </td>
+            <td>
+              <p>Specie</p>
+              <select class="selectsign" name="specie">
+                <option value="umano">Umano</option>
+                <option value="krentoriani">Krentoriani</option>
+                <option value="sauniA">Sauni Arcaici</option>
+                <option value="sauniE">Sauni Eletti</option>
+                <option value="quark">Qüark</option>
+                <option value="pravosianiG">Pravosiani Guerrieri</option>
+                <option value="pravosianiGS">Pravosiani Guide Spirituali</option>
+                <option value="veriS">Veri Syviar</option>
+                <option value="ivosiani">Ivosiani</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Username</p>
+              <input type="text" name="username" class="sign" required>    
+            </td>
+            <td>
+              <p> Sesso</p>
+              <select class="selectsign" name="sesso">
+                <option value="m">Maschio</option>
+                <option value="f">Femmina</option>
+                <option value="n">Altro</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Password</p>
+              <input type="password" name="password" class="sign" required>
+            </td>
+            <td>
+              <p>Conferma password</p>
+              <input type="password" name="password2" class="sign" required>
+            </td>
+          </tr>
+        </table>
+          
           <div style="text-align: center;">
-            <button class="bottone" type="submit">REGISTRATI</button>
+            <button id="bottoneReg" type="submit">REGISTRATI</button>
           </div>
-        </form>
+        Hai già un account? <a onclick="toSlide('login-page')" class="link">Log in</a>
       </div>
     </div>
   </body>
