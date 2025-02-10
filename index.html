@@ -16,20 +16,20 @@
     <div id="login-page" class="slide">
       <div id="login-box">
         <img src="img/logo.png" class="logo-login">
-        <form style="text-align: left; padding:2rem;">
+        <div style="text-align: left; padding:2rem;">
           <div>
             <p>Nome utente</p>
-            <input type="text" name="username" class="login" required>
+            <input type="text" name="username" id="usernameLogin" class="login" required>
           </div>
           <div>
             <p>Password</p>
-            <input type="password" name="password" class="login" required>
+            <input type="password" name="password" id="passwordLogin" class="login" required>
           </div>
           
           <div style="text-align: center;">
-            <button class="bottone" type="submit">ACCEDI</button>
+            <button class="bottone" onclick="accedi()">ACCEDI</button>
           </div>
-        </form>
+        </div>
         <p>
           Non hai un account? <a onclick="toSlide('signin-page')" class="link">Sign in</a>
         </p>
@@ -42,11 +42,11 @@
           <tr>
             <td>
               <p>Nome Completo Personaggio</p>
-              <input type="text" name="nome" class="sign" required>
+              <input type="text" id="nome" name="nome" class="sign" required>
             </td>
             <td>
               <p>Specie</p>
-              <select class="selectsign" name="specie">
+              <select class="selectsign" id="specie" name="specie">
                 <option value="umano">Umano</option>
                 <option value="krentoriani">Krentoriani</option>
                 <option value="sauniA">Sauni Arcaici</option>
@@ -62,11 +62,11 @@
           <tr>
             <td>
               <p>Username</p>
-              <input type="text" name="username" class="sign" required>    
+              <input type="text" name="username" id="username" class="sign" required>    
             </td>
             <td>
               <p> Sesso</p>
-              <select class="selectsign" name="sesso">
+              <select class="selectsign" id="sesso" name="sesso">
                 <option value="m">Maschio</option>
                 <option value="f">Femmina</option>
                 <option value="n">Altro</option>
@@ -76,17 +76,17 @@
           <tr>
             <td>
               <p>Password</p>
-              <input type="password" name="password" class="sign" required>
+              <input type="password" name="password" id="password" class="sign" required>
             </td>
             <td>
               <p>Conferma password</p>
-              <input type="password" name="password2" class="sign" required>
+              <input type="password" name="password2" id="passwordConf" class="sign" required>
             </td>
           </tr>
         </table>
           
           <div style="text-align: center;">
-            <button id="bottoneReg" type="submit">REGISTRATI</button>
+            <button id="bottoneReg" type="submit" onclick="creaUtente()">REGISTRATI</button>
           </div>
         Hai già un account? <a onclick="toSlide('login-page')" class="link">Log in</a>
       </div>
