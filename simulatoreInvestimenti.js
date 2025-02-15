@@ -51,42 +51,57 @@ function Stock(id,name,description,baseValue,variability,volatility,noisiness,in
     this._cacheMisses=0*/
 }
 const STOCKVALUECACHE_SIZE=1048576
+const CACHE_TOLERANCE = 0.00001;
 
 Stock.prototype={
     constructor:Stock,
-    getValue:function(t){
-        if(typeof t === "undefined") t=gameTimer()
-        t=Number(t).toFixed(5)
-        let tIdx=(~~(t*100000))%STOCKVALUECACHE_SIZE
-        if(this._valueCache[tIdx] && this._valueCache[tIdx].t===t){
-            //this._cacheHits++
-            return this._valueCache[tIdx].v
-        }else{
-            //this._cacheMisses++
+    getValue: function (t = gameTimer()) {
+        t = Number(t).toFixed(5);
+        let tIdx = (~~(t * 100000)) % CACHE_SIZE;
+    
+        // Controllo cache
+        if (this._valueCache[tIdx]?.t && Math.abs(this._valueCache[tIdx].t - t) < CACHE_TOLERANCE) {
+            return this._valueCache[tIdx].v;
         }
-        let v=0
+        
+        let v = 0;
         let sumAmplitudes = 0;
-        for(let i=0;i<this._hAmplitude.length;i++){
-            v+=this._hAmplitude[i]*Math.sin(this._baseF*t*i+this._hPhase[i])
-            sumAmplitudes+=this._hAmplitude[i]
+    
+        // Calcolo armoniche basse
+        for (let i = 0; i < this._hAmplitude.length; i++) {
+            v += this._hAmplitude[i] * Math.sin(this._baseF * t * i + this._hPhase[i]);
+            sumAmplitudes += this._hAmplitude[i];
         }
-        for(let i=0;i<this._hfhAmplitude.length;i++){
-            v+=this._hfhAmplitude[i]*Math.sin(this._baseF*1000*t*i+this._hfhPhase[i])
-            v+=this._hfhAmplitude[i]*Math.sin(this._baseF*100000*t*i+this._hfhPhase[i])*0.2
-            sumAmplitudes+=this._hfhAmplitude[i];
+    
+        // Calcolo armoniche alte
+        for (let i = 0; i < this._hfhAmplitude.length; i++) {
+            let hfValue = this._hfhAmplitude[i] * Math.sin(this._baseF * 1000 * t * i + this._hfhPhase[i]);
+            let ultraHfValue = this._hfhAmplitude[i] * Math.sin(this._baseF * 100000 * t * i + this._hfhPhase[i]) * 0.2;
+            v += hfValue + ultraHfValue;
+            sumAmplitudes += this._hfhAmplitude[i];
         }
-        v/=sumAmplitudes;
-        v++
-        if(this._influenceability!=0) v*=(Math.pow(_masterStock.getValue(t),0.75)*this._influenceability)+1*(1-this._influenceability)
-        if(v<0) v*=-1
-        v*=this._baseValue
-        if(v<0.1){
-            v=Math.pow(Math.E,v-2.4)
+    
+        v /= sumAmplitudes; // Rende maggiormente stabile il valore di v
+        v += 1;
+    
+        // Piccola aggiunta casuale
+        v += (Math.random() - 0.5) * 0.02;
+    
+        // Influenza del master stock (dovrà essere più di uno)
+        if (this._influenceability !== 0) {
+            v *= Math.pow(_masterStock.getValue(t), 0.75) * this._influenceability + (1 - this._influenceability);
         }
-        v-=0.05
-        v=v<0.001?0.001:v
-        this._valueCache[tIdx]={t:t,v:v}
-        return v
+    
+        v = Math.abs(v) * this._baseValue;
+    
+        // Ottimizzazione della trasformazione per valori bassi
+        v = v < 0.1 ? Math.exp(v - 2.4) : v;
+        v = Math.max(v - 0.05, 0.001);
+    
+        // Salvataggio nella cache
+        this._valueCache[tIdx] = { t, v };
+        
+        return v;
     },
     getDailyVariation:function(){
         let t=gameTimer()

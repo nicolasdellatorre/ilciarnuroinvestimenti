@@ -77,8 +77,6 @@ function accedi() {
 
     if (utenteTrovato) {
         alert("Accesso eseguito con successo");
-        // Puoi reindirizzare a una nuova pagina se necessario
-        // window.location.href = "pagina_principale.html";
     } else {
         alert("Username o password errati");
     }
