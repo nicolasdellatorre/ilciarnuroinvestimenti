@@ -25,6 +25,20 @@
     justify-items: center;
 }
 
+#home-page{
+    background-image: url('img/landing-background.jpg');
+    background-size: cover;
+    position:absolute;
+    top:0; left:0; width:100%; height:100%;
+    overflow: auto;
+}
+
+#newsGrande{
+    background-image: url('img/signin-background.png');
+    height: 20rem;
+    width: 10rem;
+}
+
 div.slide{
     position:fixed;
     top:0; left:0; width:100%; height:100%;
@@ -123,6 +137,15 @@ div.slide.visible{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#portofolio, #indici, #news{
+    margin: 0.5rem;
+    background-color: rgba(0, 2, 117, 0.582);
+    border-radius: 20px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: auto;
+}
+
 .logo-login {
     width: 20rem;
     height: auto;
@@ -133,14 +156,72 @@ div.slide.visible{
     text-decoration: underline;
     cursor: pointer;
 }
+<<<<<<< Updated upstream
 .sign{
     width: 20rem;
+=======
+
+.stock{
+    background: #11007c;
+    border-radius: 20px;
+    color: white;
+    padding: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 45rem;
+}
+
+.indice{
+    display: flex;
+    min-width: 15rem;
+    max-width: 20rem;
+    padding: 0;
+    border-radius: 2rem;
+    text-align:center;
+    font-size: 1rem;
+    font-weight: bold;
+    min-height: 5rem;
+    max-height: 7rem;
+}
+
+#primoPiano{
+    background-image: url('img/signin-background.png');
+    background-size: cover;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-width: 65%;
+}
+
+#menoImportante{
+    display: flex;
+    background: #00000020;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    max-height: 50rem;
+}
+
+#tabMenoImportante > li{
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 10px;
+    font-size: 1rem;
+}
+
+input[type="text"], input[type="password"] {
+    width: 80%;
+>>>>>>> Stashed changes
     height: 2rem;
     border-radius: 10px;
     border: none;
     padding-left: 1rem;
     background-color: lightgrey;
 }
+<<<<<<< Updated upstream
 .selectsign{
     width: 21rem;
     height: 2rem;
@@ -159,4 +240,26 @@ div.slide.visible{
 }
 table{
     width:100%;
+=======
+
+::-webkit-scrollbar {
+  width: 0.7rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #080f67;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6c2dca;
+  width: 0.5rem;
+  border-radius: 15px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b146c6;
+  width: 0.5rem;
+  border-radius: 15px;
+>>>>>>> Stashed changes
 }
