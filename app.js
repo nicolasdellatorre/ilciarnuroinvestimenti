@@ -60,6 +60,7 @@ function creaUtente() {
     localStorage.setItem("utenti", JSON.stringify(utenti));
 
     alert("Registrazione completata con successo");
+    toSlide("login-page");
 }
 
 function accedi() {
@@ -77,6 +78,7 @@ function accedi() {
 
     if (utenteTrovato) {
         alert("Accesso eseguito con successo");
+        toSlide("home-page");
     } else {
         alert("Username o password errati");
     }
