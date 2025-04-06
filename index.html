@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
   <head>
     <meta charset="utf-8">
     <title>Il Ciarnuro - Simulatore di Investimenti</title>
@@ -29,7 +29,7 @@
           </div>
           
           <div style="text-align: center;">
-            <button class="bottone" onclick="accedi()">ACCEDI</button>
+            <input class="bottone" type="submit" value="ACCEDI">
           </div>
         </div>
         <p>
@@ -85,6 +85,12 @@
               <input type="password" name="password2" id="passwordConf" class="sign" required>
             </td>
           </tr>
+          <tr>
+            <td>
+              <p>Saldo iniziale</p>
+              <input type="number" name="saldoIniziale" id="saldoIniziale" class="sign" required value="0">
+            </td>
+          </tr>
         </table>
           
           <div style="text-align: center;">
@@ -97,8 +103,9 @@
         <div style="display: flex; text-align: center; padding: 20px;">
             <img src="img/Logo.png" style="width: 25rem; height: auto; margin-left:37%">
             <div style="display: flex; align-items: center;">
-                <p style="margin-left: 3rem;">2145-05-02 17:56:41</p>
-                <img src="img/iconaUtente.png" style="width: 30px; height: 30px;">
+                <p style="margin-left: 3rem; color: white; margin-right: 2rem; font-family: Arial, Helvetica, sans-serif;" id="pOrario">2145-05-02 17:56:41</p>
+                <img src="img/iconaUtente.png" style="width: 30px; height: 30px;" class="iconaUtente" onclick="modificaUtente()">
+                <p style="margin-left: 1rem; color:white; font-family: Arial, Helvetica, sans-serif;" id="nomeUtente">Nome utente</p>
             </div>
         </div>
         <div id="portofolio" style="display: flex; flex-wrap: wrap; padding: 1.1rem; width: 92%; text-align: center; margin-left: 2.7rem;">
@@ -106,11 +113,11 @@
             <div style="display: flex; justify-content: space-between; margin-left:5%; padding-bottom:0;">
                 <div style="display: flex;">
                     <div style="margin-right: 2rem; text-align: center;">
-                        <p style="font-size: 3rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem;">7'000 kr</p>
+                        <p style="font-size: 3rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem;" id="controvaloreHome">0 kr</p>
                         <p style="margin: 0; font-size: 1.7rem;">CONTROVALORE</p>
                     </div>
                     <div style="margin-right: 2rem; text-align: center;">
-                        <p style="font-size: 3rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem">2'500 kr</p>
+                        <p style="font-size: 3rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem" id="liquiditaHome">0 kr</p>
                         <p style="margin: 0; font-size: 1.7rem;">LIQUIDITÀ</p>
                     </div>
                 </div>
@@ -219,8 +226,61 @@
             </div>
         </div>
     </div>
+    <div id="modificaUtente" class="slide" style="margin: auto;">
+      <div id="modify-box">
+        <img src="img/logo.png" class="logo-login">
+        <table>
+          <tr>
+            <td>
+              <p>Nome Completo Personaggio</p>
+              <input type="text" id="nomeModifica" name="nomeModifica" class="sign" required>
+            </td>
+            <td>
+              <p>Specie</p>
+              <select class="selectsign" id="specieModifica" name="specieMoifica">
+                <option value="umano">Umano</option>
+                <option value="krentoriani">Krentoriani</option>
+                <option value="sauniA">Sauni Arcaici</option>
+                <option value="sauniE">Sauni Eletti</option>
+                <option value="quark">Qüark</option>
+                <option value="pravosianiG">Pravosiani Guerrieri</option>
+                <option value="pravosianiGS">Pravosiani Guide Spirituali</option>
+                <option value="veriS">Veri Syviar</option>
+                <option value="ivosiani">Ivosiani</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p>Username</p>
+              <input type="text" name="usernameModifica" id="usernameModifica" class="sign" required>    
+            </td>
+            <td>
+              <p> Sesso</p>
+              <select class="selectsign" id="sessoModifica" name="sessoModifica">
+                <option value="m">Maschio</option>
+                <option value="f">Femmina</option>
+                <option value="n">Altro</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+          
+          <div style="text-align: center;">
+            <button id="bottoneMod" type="submit" onclick="confermaModifica()">MODIFICA</button>
+          </div>
+        Vuoi cambiare password? <a onclick="toSlide('home-page')" class="link">Modifica password</a>
+      </div>
+    </div>
   </body>
   <script>
+    utenti = JSON.parse(localStorage.getItem("utenti")) || [];
     toSlide("landing-page");
+    document.getElementById("login-page").addEventListener("keydown", function(event) {
+        if (event.key === "Enter" && document.getElementById("login-page").classList.contains("visible")) {
+            event.preventDefault(); 
+            accedi();
+        }
+    });
   </script>
 </html>
