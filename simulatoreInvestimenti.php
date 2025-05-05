@@ -36,62 +36,101 @@ function generateValue($variability, $volatility, $noisiness, $valoreBase, $seed
     $sumAmplitudes = 0;
     $hAmplitude = [];
     $hPhase = [];
+    $hfhAmplitude = [];
+    $hfhPhase = [];
 
     $rng = mulberry32($seed);
 
-    for ($i = 0; $i < 128; $i++) {
-        $hAmplitude[$i] = $variability * ($rng() * 1000 / ($i + 1));
+    for ($i = 0; $i < 1024; $i++) {
+        $hAmplitude[$i] = $variability * ($rng() * 1000 / ($i * 0.7 + $rng() * 0.3));
         $hPhase[$i] = $rng() * 2 * pi();
+    }
+
+    for ($i = 0; $i < 1024; $i++) {
+        $hfhAmplitude[$i] = $noisiness * ($rng() / ($i * 0.3 + $rng() * 0.7));
+        $hfhPhase[$i] = $rng() * 2 * pi();
     }
 
     $baseF = $volatility / 100;
 
+    // Calcolo armoniche basse
     for ($i = 0; $i < count($hAmplitude); $i++) {
         $v += $hAmplitude[$i] * sin($baseF * $timestamp * $i + $hPhase[$i]);
         $sumAmplitudes += $hAmplitude[$i];
     }
 
-    $v += ($rng() - 0.5) * $noisiness * 2;
+    // Calcolo armoniche alte
+    for ($i = 0; $i < count($hfhAmplitude); $i++) {
+        $hfValue = $hfhAmplitude[$i] * sin($baseF * 1000 * $timestamp * $i + $hfhPhase[$i]);
+        $ultraHfValue = $hfhAmplitude[$i] * sin($baseF * 100000 * $timestamp * $i + $hfhPhase[$i]) * 0.2;
+        $v += $hfValue + $ultraHfValue;
+        $sumAmplitudes += $hfhAmplitude[$i];
+    }
 
-    $v /= ($sumAmplitudes / 2 + 1e-9);
-    $v = tanh($v);
+    $v /= $sumAmplitudes; // Stabilizza maggiormente il valore di v
+    $v += 1;
 
-    $v = $valoreBase * (1 + $v * 0.6); 
+    $v = abs($v) * $valoreBase;
 
-    return max($v, 0.001);
+    // Ottimizzazione per valori bassi
+    if ($v < 0.1) {
+        $v = exp($v - 2.4);
+    }
+    $v = max($v - 0.05, 0.001);
+
+    return $v;
 }
 
-
 function previous($variability, $volatility, $noisiness, $valoreBase, $seed, $t) {
-    $timestamp = $t;
-    $timestamp = number_format($timestamp, 5, '.', '');
-
+    $t = number_format($t, 5, '.', '');
+    
     $v = 0;
     $sumAmplitudes = 0;
     $hAmplitude = [];
     $hPhase = [];
+    $hfhAmplitude = [];
+    $hfhPhase = [];
 
     $rng = mulberry32($seed);
 
-    for ($i = 0; $i < 128; $i++) {
-        $hAmplitude[$i] = $variability * ($rng() * 1000 / ($i + 1));
+    for ($i = 0; $i < 1024; $i++) {
+        $hAmplitude[$i] = $variability * ($rng() * 1000 / ($i * 0.7 + $rng() * 0.3));
         $hPhase[$i] = $rng() * 2 * pi();
+    }
+
+    for ($i = 0; $i < 1024; $i++) {
+        $hfhAmplitude[$i] = $noisiness * ($rng() / ($i * 0.3 + $rng() * 0.7));
+        $hfhPhase[$i] = $rng() * 2 * pi();
     }
 
     $baseF = $volatility / 100;
 
+    // Calcolo armoniche basse
     for ($i = 0; $i < count($hAmplitude); $i++) {
-        $v += $hAmplitude[$i] * sin($baseF * $timestamp * $i + $hPhase[$i]);
+        $v += $hAmplitude[$i] * sin($baseF * $t * $i + $hPhase[$i]);
         $sumAmplitudes += $hAmplitude[$i];
     }
 
-    $v += ($rng() - 0.5) * $noisiness * 2;
+    // Calcolo armoniche alte
+    for ($i = 0; $i < count($hfhAmplitude); $i++) {
+        $hfValue = $hfhAmplitude[$i] * sin($baseF * 1000 * $t * $i + $hfhPhase[$i]);
+        $ultraHfValue = $hfhAmplitude[$i] * sin($baseF * 100000 * $t * $i + $hfhPhase[$i]) * 0.2;
+        $v += $hfValue + $ultraHfValue;
+        $sumAmplitudes += $hfhAmplitude[$i];
+    }
 
-    $v /= ($sumAmplitudes / 2 + 1e-9); 
-    $v = tanh($v); 
+    $v /= $sumAmplitudes; // Stabilizza maggiormente il valore di v
+    $v += 1;
 
-    $v = $valoreBase * (1 + $v * 0.6);
-    return max($v, 0.001);
+    $v = abs($v) * $valoreBase;
+
+    // Ottimizzazione per valori bassi
+    if ($v < 0.1) {
+        $v = exp($v - 2.4);
+    }
+    $v = max($v - 0.05, 0.001);
+
+    return $v;
 }
 
 ?>

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Login | Il Ciarnuro - Simulatore di Investimenti</title>
-        <link rel="stylesheet" type="text/css" href="stile.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="icon" type="image/png" href="img/GCFflavicon.png">
         <script src="sw.js" type="text/javascript"></script>
     </head>

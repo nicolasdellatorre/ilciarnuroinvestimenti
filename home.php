@@ -18,29 +18,23 @@
         <meta charset="utf-8">
         <!-- <meta http-equiv="refresh" content="0.5"> -->
         <title>Home | Il Ciarnuro - Simulatore di Investimenti</title>
-        <link rel="stylesheet" type="text/css" href="stile.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
         <link rel="icon" type="image/png" href="img/GCFflavicon.png">
     </head>
     <body style="margin: 0;">
         <div id="home-page" style="background-image: url('img/landing-background.jpg'); background-size: cover; top:0; left:0; width:100%; height:100%; overflow: auto; text-align: center; display: grid; justify-items: center;">
             <div style="display: flex; align-items: center; justify-content: space-between; padding: 20px; width: 100%; position: relative; overflow: hidden;">
-                <div style="position: absolute; left: 7.5em;">
-                    <a href="logout.php" style="color: white; font-family: Arial, Helvetica, sans-serif; text-decoration: underline; font-size: 1.2rem;">
-                        ← logout
-                    </a>
-                </div>
                 <div style="position: absolute; left: 50%; transform: translateX(-50%);">
                     <img src="img/Logo.png" style="width: 25rem; height: auto;">
                 </div>
                 <div style="display: flex; align-items: center; gap: 2rem; margin-left: auto; padding-right: 20px;">
                     <p style="color: white; font-family: Arial, Helvetica, sans-serif;" id="pOrario"><?php echo gameTimerAsDate(); ?></p>
-                    <img src="img/iconaUtente.png" style="width: 30px; height: 30px;" class="iconaUtente">
+                    <img src="img/iconaUtente.png" style="width: 30px; height: 30px;" class="iconaUtente" onclick="modificaUtente()">
                     <p style="color: white; font-family: Arial, Helvetica, sans-serif;" id="nomeUtente">
                         <?php echo $utente["nomeCompleto"]; ?>
                     </p>
                 </div>
             </div>
-
 
             <div id="portofolio" style="display: flex; flex-wrap: wrap; padding: 1.1rem; width: 92%; text-align: center; margin-left: 2.7rem;">
                 <h3 style="font-size: 2rem; margin-left: 4.7rem; text-align: left; max-width: 20rem;">Il tuo portafoglio</h3>
@@ -62,11 +56,11 @@
                                 }
                                 $controvalore = round($controvalore, 0);
                             ?>
-                            <p style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem;" id="controvaloreHome"><?php echo number_format($controvalore, 0, '.', "'"); ?> Kr</p>
+                            <p style="font-size: 3rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem;" id="controvaloreHome"><?php echo $controvalore; ?> Kr</p>
                             <p style="margin: 0; font-size: 1.7rem;">CONTROVALORE<br>TITOLI</p>
                         </div>
                         <div style="margin-right: 2rem; text-align: center;">
-                            <p style="font-size: 2.5rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem" id="liquiditaHome"><?php echo $utente["liquidita"]; ?> kr</p>
+                            <p style="font-size: 3rem; font-weight: bold; margin-bottom: 0; margin-top: 4rem" id="liquiditaHome"><?php echo $utente["liquidita"]; ?> kr</p>
                             <p style="margin: 0; font-size: 1.7rem;">LIQUIDITÀ</p>
                         </div>
                     </div>
@@ -85,13 +79,17 @@
 
                                         echo "<div class='stock'>";
                                         echo "<span style='font-weight: bold;margin-right: 50%;'>".$row["nome"]." (".$row["sigla"].")"."</span>";
-                                        echo "<span style='width: 10rem; text-align: right;'>";
-                                        echo "<span id='val".$num."'>".number_format($posseduto, 2, '.', "'")." Kr</span><br>";
+                                        echo "<span style='width: 7rem; text-align: right;'>";
+                                        echo "<span id='val".$num."'>".round($posseduto, 4)." Kr</span><br>";
+
+                                        $primaAcquisto = new DateTime($row["dataPrimoAcquisto"]);
+                                        $primaAcquistoTimestamp = $primaAcquisto->getTimestamp();
+                                        $giorniDal1970 = floor($primaAcquistoTimestamp / (60 * 60 * 24));
                                         
-                                        $valoreIeri = previous($row["variability"], $row["volatility"], $row["noisiness"], $row["prezzoPartenza"], $row["seed"], gameTimer() - 1);
+                                        $valorePrimoAcquisto = previous($row["variability"], $row["volatility"], $row["noisiness"], $row["prezzoPartenza"], $row["seed"], $giorniDal1970);
                                         
-                                        $diff = $valoreTitolo - $valoreIeri;
-                                        $percent = $diff /  $valoreIeri;
+                                        $diff = $valoreTitolo - $valorePrimoAcquisto;
+                                        $percent = $diff /  $valorePrimoAcquisto;
                                         $percent = round($percent * 100, 2); 
                                         if ($percent > 0) {
                                             echo "<span style='color: #41cc9d;' id='perc".$num."'>+".$percent."%</span>";
@@ -106,9 +104,9 @@
                                 }
                             ?>
                         </div>
-                        <a href="assets.php"><button class="bottone" style="width: 50%; margin-top: 2rem; margin-left: 1.7rem; text-align: left; padding-left: 1rem">
+                        <button class="bottone" style="width: 50%; margin-top: 2rem; margin-left: 1.7rem; text-align: left; padding-left: 1rem">
                             Vai a tutti i titoli →
-                        </button></a>
+                        </button>
                     </div>
                 </div>
             </div>
