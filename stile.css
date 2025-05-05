@@ -389,3 +389,7 @@ table{
   border-radius: 15px;
 
 }
+
+.iconaUtente:hover {
+    cursor: pointer;
+}
